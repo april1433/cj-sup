@@ -304,7 +304,7 @@ ${notes ? `• Notes: ${notes}` : ''}`,
                 </span>
               ) : (
                 <span className="text-amber-700 font-semibold">
-                  *Login with Google or Facebook required on submit
+                  *Login with Google required on submit
                 </span>
               )}
             </div>

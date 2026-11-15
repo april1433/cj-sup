@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, MessageCircle, LogIn, LogOut, ArrowRightLeft, Sparkles, User, Settings } from 'lucide-react';
+import { ShieldCheck, MessageCircle, LogIn, LogOut, ArrowRightLeft, Sparkles } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface NavbarProps {
@@ -8,10 +8,8 @@ interface NavbarProps {
   onOpenTradeIn: () => void;
   onOpenChat: () => void;
   onOpenStaffDashboard: () => void;
-  onOpenEnvGuide: () => void;
   onLogout: () => void;
   activeConversationCount: number;
-  isConfigured: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -20,37 +18,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenTradeIn,
   onOpenChat,
   onOpenStaffDashboard,
-  onOpenEnvGuide,
   onLogout,
   activeConversationCount,
-  isConfigured,
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full apple-glass border-b border-gray-200/80 transition-all duration-200">
-      {/* Top micro-banner for configuration & deployment status */}
-      <div className="bg-gradient-to-r from-gray-900 via-neutral-900 to-black text-white text-xs py-1.5 px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="font-medium text-gray-200">
-              Verified Stock Live • 30-Point Battery & Diagnostics Passed
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onOpenEnvGuide}
-              className="text-gray-300 hover:text-white underline underline-offset-2 flex items-center gap-1 text-[11px] transition"
-            >
-              <Settings className="w-3 h-3 text-blue-400" />
-              <span>{isConfigured ? 'Supabase Connected' : 'Setup Supabase & Hosting'}</span>
-            </button>
-            <span className="text-gray-500">|</span>
-            <span className="text-gray-400 text-[11px]">Deployable to Netlify + Hostinger</span>
-          </div>
-        </div>
-      </div>
-
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand / Logo */}
@@ -162,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-full text-gray-700 hover:text-black hover:bg-gray-100 transition"
             >
               <LogIn className="w-4 h-4 text-gray-500" />
-              <span>Login with Google / FB</span>
+              <span>Login with Google</span>
             </button>
           )}
         </div>

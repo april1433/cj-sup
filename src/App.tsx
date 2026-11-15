@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 import { IPhone, UserProfile, Conversation, TradeInInquiry } from './types';
-import { getCurrentUser, signOut, fetchIPhones, getOrCreateConversation, isConfigured, subscribeToIPhones, supabase } from './lib/supabase';
+import { getCurrentUser, signOut, fetchIPhones, getOrCreateConversation, subscribeToIPhones, supabase } from './lib/supabase';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { IPhoneCard } from './components/IPhoneCard';
@@ -25,7 +25,6 @@ import { AuthModal } from './components/AuthModal';
 import { TradeInCalculatorModal } from './components/TradeInCalculatorModal';
 import { ChatDrawer } from './components/ChatDrawer';
 import { StaffDashboardModal } from './components/StaffDashboardModal';
-import { EnvGuideModal } from './components/EnvGuideModal';
 import { Footer } from './components/Footer';
 
 export const App: React.FC = () => {
@@ -50,7 +49,6 @@ export const App: React.FC = () => {
   const [tradeInModalOpen, setTradeInModalOpen] = useState(false);
   const [chatDrawerOpen, setChatDrawerOpen] = useState(false);
   const [staffDashboardOpen, setStaffDashboardOpen] = useState(false);
-  const [envGuideOpen, setEnvGuideOpen] = useState(false);
   const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
 
   // Load initial User and Inventory
@@ -76,7 +74,7 @@ export const App: React.FC = () => {
 
     initialize();
 
-    // Subscribe to auth state changes (automatically logs in upon Google / Facebook OAuth redirect)
+    // Subscribe to auth state changes (automatically logs in upon Google OAuth redirect)
     let authUnsubscribe = () => {};
     if (supabase) {
       const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -196,10 +194,8 @@ export const App: React.FC = () => {
           }
         }}
         onOpenStaffDashboard={() => setStaffDashboardOpen(true)}
-        onOpenEnvGuide={() => setEnvGuideOpen(true)}
         onLogout={handleLogout}
         activeConversationCount={activeConversation ? 1 : 0}
-        isConfigured={isConfigured}
       />
 
       <main className="flex-1">
@@ -426,10 +422,10 @@ export const App: React.FC = () => {
                   2
                 </div>
                 <h4 className="font-bold text-gray-900 text-sm mb-1.5">
-                  1-Click Social Login
+                  1-Click Google Login
                 </h4>
                 <p className="text-xs text-gray-500 leading-relaxed">
-                  Before chatting, sign in securely with <strong>Google</strong> or <strong>Facebook</strong> to verify your identity and save your message thread.
+                  Before chatting, sign in securely with <strong>Google</strong> to verify your identity and save your message thread.
                 </p>
               </div>
 
@@ -521,7 +517,7 @@ export const App: React.FC = () => {
         onInquire={(p) => handleInquirePhone(p)}
       />
 
-      {/* 2. Authentication Modal (Google / Facebook Login) */}
+      {/* 2. Authentication Modal (Google Login) */}
       <AuthModal
         isOpen={authModalOpen}
         onClose={() => {
@@ -578,12 +574,6 @@ export const App: React.FC = () => {
           onInventoryUpdated={refreshInventory}
         />
       )}
-
-      {/* 6. Setup & Deployment Guide Modal */}
-      <EnvGuideModal
-        isOpen={envGuideOpen}
-        onClose={() => setEnvGuideOpen(false)}
-      />
     </div>
   );
 };

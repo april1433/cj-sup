@@ -34,7 +34,7 @@ export function isOwnerOrStaff(email?: string | null): boolean {
 }
 
 // ==============================================================================
-// AUTHENTICATION APIs (REAL GOOGLE & FACEBOOK OAUTH VIA SUPABASE)
+// AUTHENTICATION APIs (REAL GOOGLE OAUTH VIA SUPABASE)
 // ==============================================================================
 
 export async function signInWithGoogle() {
@@ -47,18 +47,6 @@ export async function signInWithGoogle() {
         access_type: 'offline',
         prompt: 'select_account',
       },
-    },
-  });
-  if (error) throw error;
-  return data;
-}
-
-export async function signInWithFacebook() {
-  if (!supabase) throw new Error('Supabase client is not initialized.');
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'facebook',
-    options: {
-      redirectTo: window.location.origin,
     },
   });
   if (error) throw error;

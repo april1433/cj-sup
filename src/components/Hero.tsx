@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTradeIn, onExploreClick }) => 
           {/* Subtitle */}
           <p className="text-base sm:text-lg text-gray-300 mb-9 leading-relaxed font-normal max-w-2xl mx-auto">
             Browse genuine in-stock iPhones with authentic battery health and condition reports freely. 
-            Sign in with <strong className="text-white font-semibold">Google</strong> or <strong className="text-white font-semibold">Facebook</strong> to chat directly with our store specialists to buy, reserve, or trade-in.
+            Sign in with <strong className="text-white font-semibold">Google</strong> to chat directly with our store specialists to buy, reserve, or trade-in.
           </p>
 
           {/* Action CTAs */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
+import { X, ShieldCheck, Sparkles, AlertCircle } from 'lucide-react';
 import { IPhone, UserProfile } from '../types';
-import { signInWithGoogle, signInWithFacebook } from '../lib/supabase';
+import { signInWithGoogle } from '../lib/supabase';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -19,15 +19,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const [loadingProvider, setLoadingProvider] = useState<'google' | 'facebook' | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleGoogleLogin = async () => {
     try {
-      setLoadingProvider('google');
+      setLoading(true);
       setErrorMsg(null);
       await signInWithGoogle();
-      // Browser will now redirect to Google OAuth login page
+      // Browser redirects to Google OAuth
     } catch (err: any) {
       console.error('Google Sign In Error:', err);
       if (err.message?.includes('provider is not enabled') || err.message?.includes('Unsupported provider')) {
@@ -35,24 +35,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       } else {
         setErrorMsg(err.message || 'Could not connect to Google login. Please try again.');
       }
-      setLoadingProvider(null);
-    }
-  };
-
-  const handleFacebookLogin = async () => {
-    try {
-      setLoadingProvider('facebook');
-      setErrorMsg(null);
-      await signInWithFacebook();
-      // Browser will now redirect to Facebook OAuth login page
-    } catch (err: any) {
-      console.error('Facebook Sign In Error:', err);
-      if (err.message?.includes('provider is not enabled') || err.message?.includes('Unsupported provider')) {
-        setErrorMsg('Facebook login is not enabled in your Supabase Dashboard yet. In Supabase, go to Authentication → Providers → Facebook and toggle it ON.');
-      } else {
-        setErrorMsg(err.message || 'Could not connect to Facebook login. Please try again.');
-      }
-      setLoadingProvider(null);
+      setLoading(false);
     }
   };
 
@@ -81,10 +64,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Heading */}
         <div className="text-center mb-6">
           <h3 className="text-2xl font-black text-gray-900 tracking-tight">
-            Sign In with Google or Facebook
+            Sign In with Google
           </h3>
           <p className="text-xs text-gray-500 mt-1 max-w-xs mx-auto">
-            Choose your account to start chatting with the owner, negotiate prices, or manage your inventory.
+            Sign in with your Google account to chat with us, inquire about phones, or submit trade-ins.
           </p>
         </div>
 
@@ -130,15 +113,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
         )}
 
-        {/* OAuth Action Buttons */}
+        {/* Google OAuth Action Button */}
         <div className="space-y-3">
-          {/* Google Login */}
           <button
             onClick={handleGoogleLogin}
-            disabled={loadingProvider !== null}
+            disabled={loading}
             className="w-full py-3.5 px-4 rounded-2xl border border-gray-300 hover:bg-gray-50 text-gray-800 font-semibold text-sm transition flex items-center justify-center gap-3 shadow-xs active:scale-95 disabled:opacity-50"
           >
-            {loadingProvider === 'google' ? (
+            {loading ? (
               <span className="w-5 h-5 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
             ) : (
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -160,35 +142,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 />
               </svg>
             )}
-            <span>{loadingProvider === 'google' ? 'Redirecting to Google...' : 'Continue with Google (Gmail)'}</span>
+            <span>{loading ? 'Redirecting to Google...' : 'Continue with Google (Gmail)'}</span>
           </button>
-
-          {/* Facebook Login */}
-          <button
-            onClick={handleFacebookLogin}
-            disabled={loadingProvider !== null}
-            className="w-full py-3.5 px-4 rounded-2xl bg-[#1877F2] hover:bg-[#166fe5] text-white font-semibold text-sm transition flex items-center justify-center gap-3 shadow-xs active:scale-95 disabled:opacity-50"
-          >
-            {loadingProvider === 'facebook' ? (
-              <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-            ) : (
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-              </svg>
-            )}
-            <span>{loadingProvider === 'facebook' ? 'Redirecting to Facebook...' : 'Continue with Facebook'}</span>
-          </button>
-        </div>
-
-        {/* Info note */}
-        <div className="mt-5 pt-4 border-t border-gray-100 text-center">
-          <p className="text-[11px] text-gray-400">
-            Store Owner: Login with <strong className="text-gray-700">dcjayshop@gmail.com</strong> to unlock the Staff Control Panel. Clients and customers can log in with any Gmail or Facebook account to start chatting.
-          </p>
         </div>
 
         {/* Privacy Note */}
-        <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-gray-400">
+        <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-center gap-1.5 text-[11px] text-gray-400">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
           <span>Strict Privacy: Official OAuth 2.0 Security.</span>
         </div>

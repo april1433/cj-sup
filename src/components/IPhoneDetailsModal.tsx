@@ -169,7 +169,7 @@ export const IPhoneDetailsModal: React.FC<IPhoneDetailsModalProps> = ({
                 <span>Chat with Staff to Buy / Reserve</span>
               </button>
               <p className="text-[11px] text-gray-400 text-center mt-2">
-                Requires quick Google or Facebook sign in to chat.
+                Requires quick Google sign in to chat.
               </p>
             </div>
           </div>

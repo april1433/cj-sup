@@ -22,7 +22,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenTradeIn, onOpenChat }) => 
               <span className="text-white font-extrabold text-base tracking-tight">iVault</span>
             </div>
             <p className="text-gray-400 text-xs leading-relaxed">
-              Certified Apple iPhone marketplace. Browse public listings freely, sign in with Google or Facebook to chat with verified staff to buy or trade in.
+              Certified Apple iPhone marketplace. Browse public listings freely, sign in with Google to chat with verified staff to buy or trade in.
             </p>
             <div className="flex items-center gap-2 text-[11px] text-emerald-400">
               <ShieldCheck className="w-4 h-4" />
@@ -57,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenTradeIn, onOpenChat }) => 
                 </button>
               </li>
               <li><span className="text-gray-400">Staff Response: Under 5 mins</span></li>
-              <li><span className="text-gray-400">Google & Facebook OAuth Verified</span></li>
+              <li><span className="text-gray-400">Google OAuth Verified</span></li>
               <li><span className="text-gray-400">Pickup & Worldwide Tracked Shipping</span></li>
             </ul>
           </div>
