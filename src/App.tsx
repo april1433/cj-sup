@@ -232,6 +232,8 @@ export const App: React.FC = () => {
                   className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-xs text-gray-800 bg-gray-50/60 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All iPhone Generations</option>
+                  <option value="18">iPhone 18 Series (Latest)</option>
+                  <option value="17">iPhone 17 Series</option>
                   <option value="16">iPhone 16 Series</option>
                   <option value="15">iPhone 15 Series</option>
                   <option value="14">iPhone 14 Series</option>
@@ -269,6 +271,26 @@ export const App: React.FC = () => {
                   All Phones
                 </button>
                 <button
+                  onClick={() => setSelectedSeries('18')}
+                  className={`px-3 py-1 rounded-full text-[11px] font-semibold transition ${
+                    selectedSeries === '18'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  iPhone 18 Pro
+                </button>
+                <button
+                  onClick={() => setSelectedSeries('17')}
+                  className={`px-3 py-1 rounded-full text-[11px] font-semibold transition ${
+                    selectedSeries === '17'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  iPhone 17 / Air
+                </button>
+                <button
                   onClick={() => setSelectedSeries('16')}
                   className={`px-3 py-1 rounded-full text-[11px] font-semibold transition ${
                     selectedSeries === '16'
@@ -276,17 +298,7 @@ export const App: React.FC = () => {
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  iPhone 16 Pro / Max
-                </button>
-                <button
-                  onClick={() => setSelectedSeries('15')}
-                  className={`px-3 py-1 rounded-full text-[11px] font-semibold transition ${
-                    selectedSeries === '15'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  iPhone 15 Series
+                  iPhone 16 Series
                 </button>
                 <button
                   onClick={() => setSelectedCondition('Brand New')}

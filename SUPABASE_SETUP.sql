@@ -230,18 +230,74 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.iphones;
 INSERT INTO public.iphones (model, storage, color, condition, battery_health, price, original_price, status, images, description, includes, featured)
 VALUES
 (
+    'iPhone 18 Pro Max',
+    '512GB',
+    'Obsidian Titanium',
+    'Brand New (Sealed)',
+    100,
+    1399.00,
+    1499.00,
+    'available',
+    ARRAY['https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80'],
+    'Next-gen flagship with A20 Pro silicon, integrated under-display Face ID and variable aperture camera system. Factory sealed.',
+    ARRAY['Sealed Box', 'Braided High-Speed USB-C Cable', '1-Year Apple Care Eligibility'],
+    true
+),
+(
+    'iPhone 18 Pro',
+    '256GB',
+    'Silver Titanium',
+    'Brand New (Sealed)',
+    100,
+    1149.00,
+    1249.00,
+    'available',
+    ARRAY['https://images.unsplash.com/photo-1695048065057-de65796a56e0?auto=format&fit=crop&w=1000&q=80'],
+    'Brand new sealed unit. Compact pro powerhouse, ultra-bright 3000-nit ProMotion display.',
+    ARRAY['Original Factory Box', 'Braided Cable', 'Full Warranty'],
+    true
+),
+(
+    'iPhone 17 Pro Max',
+    '256GB',
+    'Cosmic Blue',
+    'Like New',
+    100,
+    1049.00,
+    1199.00,
+    'available',
+    ARRAY['https://images.unsplash.com/photo-1695048132960-47b1c3e3e0ff?auto=format&fit=crop&w=1000&q=80'],
+    'Pristine unit, 100% battery capacity. Triple 48MP fusion optics, tetraprism 5x telephoto.',
+    ARRAY['Original Box', 'Fast Charging Cable', 'Screen Protector Installed'],
+    true
+),
+(
+    'iPhone 17 Air',
+    '256GB',
+    'Titanium Frost',
+    'Like New',
+    99,
+    899.00,
+    999.00,
+    'available',
+    ARRAY['https://images.unsplash.com/photo-1591337676887-a217a6970a8a?auto=format&fit=crop&w=1000&q=80'],
+    'Ultra-thin lightweight form factor. Sleekest iPhone ever made with OLED 120Hz display.',
+    ARRAY['Original Box', 'USB-C Cable', 'Slim Case'],
+    true
+),
+(
     'iPhone 16 Pro Max',
     '256GB',
     'Desert Titanium',
     'Brand New (Sealed)',
     100,
+    899.00,
     1199.00,
-    1299.00,
     'available',
     ARRAY['https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80'],
     'Brand new in box. Apple warranty valid for 1 year. Grade A+ pristine condition.',
     ARRAY['Sealed Box', 'USB-C Braided Cable', '1-Year Apple Care Eligibility'],
-    true
+    false
 ),
 (
     'iPhone 16 Pro',
