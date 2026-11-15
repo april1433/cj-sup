@@ -179,13 +179,14 @@ BEGIN
         new.email,
         COALESCE(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)),
         COALESCE(new.raw_user_meta_data->>'avatar_url', new.raw_user_meta_data->>'picture', ''),
-        'customer'
+        CASE WHEN LOWER(new.email) = 'dcjayshop@gmail.com' THEN 'staff' ELSE 'customer' END
     )
     ON CONFLICT (id) DO UPDATE
     SET 
         email = EXCLUDED.email,
         full_name = COALESCE(EXCLUDED.full_name, public.profiles.full_name),
         avatar_url = COALESCE(EXCLUDED.avatar_url, public.profiles.avatar_url),
+        role = CASE WHEN LOWER(EXCLUDED.email) = 'dcjayshop@gmail.com' THEN 'staff' ELSE public.profiles.role END,
         updated_at = NOW();
     RETURN new;
 END;

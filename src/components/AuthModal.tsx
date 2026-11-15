@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, Sparkles, UserCheck } from 'lucide-react';
+import { X, ShieldCheck, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
 import { IPhone, UserProfile } from '../types';
-import { signInWithGoogle, signInWithFacebook, signInDemo, isConfigured } from '../lib/supabase';
+import { signInWithGoogle, signInWithFacebook } from '../lib/supabase';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -14,7 +14,6 @@ interface AuthModalProps {
 export const AuthModal: React.FC<AuthModalProps> = ({
   isOpen,
   onClose,
-  onLoginSuccess,
   phoneContext,
   tradeInContext,
 }) => {
@@ -27,18 +26,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     try {
       setLoadingProvider('google');
       setErrorMsg(null);
-      if (isConfigured) {
-        await signInWithGoogle();
-      } else {
-        // Instant simulated demo login
-        const user = signInDemo('google', 'customer');
-        onLoginSuccess(user);
-        onClose();
-      }
+      await signInWithGoogle();
+      // Browser will now redirect to Google OAuth login page
     } catch (err: any) {
-      console.error(err);
-      setErrorMsg(err.message || 'Failed to authenticate with Google.');
-    } finally {
+      console.error('Google Sign In Error:', err);
+      if (err.message?.includes('provider is not enabled') || err.message?.includes('Unsupported provider')) {
+        setErrorMsg('Google login is not enabled in your Supabase Dashboard yet. In Supabase, go to Authentication → Providers → Google and toggle it ON.');
+      } else {
+        setErrorMsg(err.message || 'Could not connect to Google login. Please try again.');
+      }
       setLoadingProvider(null);
     }
   };
@@ -47,26 +43,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     try {
       setLoadingProvider('facebook');
       setErrorMsg(null);
-      if (isConfigured) {
-        await signInWithFacebook();
-      } else {
-        // Instant simulated demo login
-        const user = signInDemo('facebook', 'customer');
-        onLoginSuccess(user);
-        onClose();
-      }
+      await signInWithFacebook();
+      // Browser will now redirect to Facebook OAuth login page
     } catch (err: any) {
-      console.error(err);
-      setErrorMsg(err.message || 'Failed to authenticate with Facebook.');
-    } finally {
+      console.error('Facebook Sign In Error:', err);
+      if (err.message?.includes('provider is not enabled') || err.message?.includes('Unsupported provider')) {
+        setErrorMsg('Facebook login is not enabled in your Supabase Dashboard yet. In Supabase, go to Authentication → Providers → Facebook and toggle it ON.');
+      } else {
+        setErrorMsg(err.message || 'Could not connect to Facebook login. Please try again.');
+      }
       setLoadingProvider(null);
     }
-  };
-
-  const handleStaffDemoLogin = () => {
-    const staffUser = signInDemo('google', 'staff');
-    onLoginSuccess(staffUser);
-    onClose();
   };
 
   return (
@@ -94,10 +81,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Heading */}
         <div className="text-center mb-6">
           <h3 className="text-2xl font-black text-gray-900 tracking-tight">
-            Sign In to Start Chatting
+            Sign In with Google or Facebook
           </h3>
           <p className="text-xs text-gray-500 mt-1 max-w-xs mx-auto">
-            Log in with your Google or Facebook account to message our store specialists directly.
+            Choose your account to start chatting with the owner, negotiate prices, or manage your inventory.
           </p>
         </div>
 
@@ -134,8 +121,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         )}
 
         {errorMsg && (
-          <div className="mb-4 p-3 rounded-xl bg-red-50 text-red-700 text-xs text-center border border-red-200">
-            {errorMsg}
+          <div className="mb-4 p-3.5 rounded-2xl bg-red-50 text-red-700 text-xs text-left border border-red-200 flex items-start gap-2.5">
+            <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <span className="font-bold block mb-0.5">Authentication Note:</span>
+              <span>{errorMsg}</span>
+            </div>
           </div>
         )}
 
@@ -169,7 +160,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 />
               </svg>
             )}
-            <span>Continue with Google (Gmail)</span>
+            <span>{loadingProvider === 'google' ? 'Redirecting to Google...' : 'Continue with Google (Gmail)'}</span>
           </button>
 
           {/* Facebook Login */}
@@ -185,40 +176,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
             )}
-            <span>Continue with Facebook</span>
+            <span>{loadingProvider === 'facebook' ? 'Redirecting to Facebook...' : 'Continue with Facebook'}</span>
           </button>
         </div>
 
-        {/* Development & Testing Helper */}
-        <div className="mt-6 pt-5 border-t border-gray-100 text-center">
-          <p className="text-[11px] text-gray-400 mb-2 font-medium">
-            Demo & Staff Testing Shortcuts:
+        {/* Info note */}
+        <div className="mt-5 pt-4 border-t border-gray-100 text-center">
+          <p className="text-[11px] text-gray-400">
+            Store Owner: Login with <strong className="text-gray-700">dcjayshop@gmail.com</strong> to unlock the Staff Control Panel. Clients and customers can log in with any Gmail or Facebook account to start chatting.
           </p>
-          <div className="flex items-center justify-center gap-2">
-            <button
-              onClick={() => {
-                const user = signInDemo('google', 'customer');
-                onLoginSuccess(user);
-                onClose();
-              }}
-              className="text-[11px] px-2.5 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition"
-            >
-              Test Customer
-            </button>
-            <button
-              onClick={handleStaffDemoLogin}
-              className="text-[11px] px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-semibold transition flex items-center gap-1"
-            >
-              <UserCheck className="w-3 h-3" />
-              Test Staff Admin
-            </button>
-          </div>
         </div>
 
         {/* Privacy Note */}
-        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-gray-400">
+        <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-gray-400">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Strict Privacy: No spam, official OAuth 2.0 security.</span>
+          <span>Strict Privacy: Official OAuth 2.0 Security.</span>
         </div>
       </div>
     </div>

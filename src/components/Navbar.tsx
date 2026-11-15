@@ -114,14 +114,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* User Status / Staff Portal */}
           {user ? (
             <div className="flex items-center gap-2 pl-2 border-l border-gray-200">
-              {user.role === 'staff' && (
+              {(user.role === 'staff' || user.role === 'admin' || user.email?.toLowerCase() === 'dcjayshop@gmail.com') && (
                 <button
                   onClick={onOpenStaffDashboard}
                   className="px-3 py-1.5 text-xs font-bold rounded-lg bg-amber-500/10 text-amber-700 border border-amber-300 hover:bg-amber-500/20 transition flex items-center gap-1"
-                  title="Staff Management Portal"
+                  title="Owner Management Portal"
                 >
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span className="hidden md:inline">Staff Panel</span>
+                  <span className="hidden md:inline">Owner Panel</span>
                 </button>
               )}
 
@@ -142,8 +142,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <div className="font-semibold text-gray-900 truncate max-w-[110px]">
                     {user.full_name}
                   </div>
-                  <div className="text-[10px] text-gray-500 capitalize">
-                    {user.role}
+                  <div className="text-[10px] text-gray-500 font-semibold">
+                    {user.email?.toLowerCase() === 'dcjayshop@gmail.com' ? 'Store Owner' : 'Verified Client'}
                   </div>
                 </div>
 

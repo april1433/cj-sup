@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 import { IPhone, UserProfile, Conversation, TradeInInquiry } from './types';
-import { getCurrentUser, signOut, fetchIPhones, getOrCreateConversation, isConfigured, subscribeToIPhones } from './lib/supabase';
+import { getCurrentUser, signOut, fetchIPhones, getOrCreateConversation, isConfigured, subscribeToIPhones, supabase } from './lib/supabase';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { IPhoneCard } from './components/IPhoneCard';
@@ -76,12 +76,28 @@ export const App: React.FC = () => {
 
     initialize();
 
+    // Subscribe to auth state changes (automatically logs in upon Google / Facebook OAuth redirect)
+    let authUnsubscribe = () => {};
+    if (supabase) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+        if (session?.user) {
+          const profile = await getCurrentUser();
+          setUser(profile);
+          setAuthModalOpen(false);
+        } else {
+          setUser(null);
+        }
+      });
+      authUnsubscribe = () => subscription.unsubscribe();
+    }
+
     // Subscribe to realtime stock updates across all clients & devices
     const unsubscribe = subscribeToIPhones(() => {
       fetchIPhones().then(setIPhones);
     });
 
     return () => {
+      authUnsubscribe();
       unsubscribe();
     };
   }, []);
@@ -549,8 +565,8 @@ export const App: React.FC = () => {
         onSelectConversation={(c) => setActiveConversation(c)}
       />
 
-      {/* 5. Staff Dashboard & Inventory Manager */}
-      {user && user.role === 'staff' && (
+      {/* 5. Staff Dashboard & Inventory Manager (Exclusive for Store Owner: dcjayshop@gmail.com) */}
+      {user && (user.role === 'staff' || user.role === 'admin' || user.email?.toLowerCase() === 'dcjayshop@gmail.com') && (
         <StaffDashboardModal
           isOpen={staffDashboardOpen}
           onClose={() => setStaffDashboardOpen(false)}
