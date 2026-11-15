@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Send, ShieldCheck, Sparkles, Image, CheckCheck, Phone, ChevronLeft, RefreshCw } from 'lucide-react';
 import { Conversation, Message, UserProfile } from '../types';
-import { fetchMessages, sendMessage, fetchConversations } from '../lib/supabase';
+import { fetchMessages, sendMessage, fetchConversations, subscribeToMessages } from '../lib/supabase';
 
 interface ChatDrawerProps {
   isOpen: boolean;
@@ -62,6 +62,16 @@ export const ChatDrawer: React.FC<ChatDrawerProps> = ({
 
   useEffect(() => {
     loadMessages();
+
+    if (activeConversation) {
+      const unsubscribe = subscribeToMessages(activeConversation.id, (newMsg) => {
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === newMsg.id)) return prev;
+          return [...prev, newMsg];
+        });
+      });
+      return () => unsubscribe();
+    }
   }, [activeConversation]);
 
   // Scroll to bottom on new messages

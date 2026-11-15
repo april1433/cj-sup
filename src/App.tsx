@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 import { IPhone, UserProfile, Conversation, TradeInInquiry } from './types';
-import { getCurrentUser, signOut, fetchIPhones, getOrCreateConversation, isConfigured } from './lib/supabase';
+import { getCurrentUser, signOut, fetchIPhones, getOrCreateConversation, isConfigured, subscribeToIPhones } from './lib/supabase';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { IPhoneCard } from './components/IPhoneCard';
@@ -75,6 +75,15 @@ export const App: React.FC = () => {
     };
 
     initialize();
+
+    // Subscribe to realtime stock updates across all clients & devices
+    const unsubscribe = subscribeToIPhones(() => {
+      fetchIPhones().then(setIPhones);
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const refreshInventory = async () => {

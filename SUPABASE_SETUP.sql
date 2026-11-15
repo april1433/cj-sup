@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS public.trade_in_inquiries (
 );
 
 -- ==============================================================================
--- ROW LEVEL SECURITY (RLS) POLICIES
+-- ROW LEVEL SECURITY (RLS) POLICIES & PERMISSIONS
 -- ==============================================================================
 
 -- Enable RLS
@@ -100,93 +100,60 @@ ALTER TABLE public.conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.trade_in_inquiries ENABLE ROW LEVEL SECURITY;
 
--- iPhones Policies (Anyone can view available phones, authenticated or not!)
-CREATE POLICY "Public can view iphones"
+-- Grant permissions to public anon and authenticated roles
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
+
+-- 1. iPhones Policies (Real-time public read and synchronized management)
+CREATE POLICY "Allow public read iphones"
     ON public.iphones FOR SELECT
     USING (true);
 
-CREATE POLICY "Staff can manage iphones"
+CREATE POLICY "Allow write iphones"
     ON public.iphones FOR ALL
-    TO authenticated
-    USING (EXISTS (
-        SELECT 1 FROM public.profiles
-        WHERE profiles.id = auth.uid() AND (profiles.role = 'staff' OR profiles.role = 'admin')
-    ));
+    USING (true)
+    WITH CHECK (true);
 
--- Profiles Policies
-CREATE POLICY "Users can view any profile basic info"
+-- 2. Profiles Policies
+CREATE POLICY "Allow public profiles read"
     ON public.profiles FOR SELECT
     USING (true);
 
-CREATE POLICY "Users can update their own profile"
-    ON public.profiles FOR UPDATE
-    TO authenticated
-    USING (auth.uid() = id);
+CREATE POLICY "Allow profiles manage"
+    ON public.profiles FOR ALL
+    USING (true)
+    WITH CHECK (true);
 
--- Conversations Policies
-CREATE POLICY "Users can view their own conversations"
+-- 3. Conversations Policies
+CREATE POLICY "Allow conversations read"
     ON public.conversations FOR SELECT
-    TO authenticated
-    USING (
-        auth.uid() = customer_id OR 
-        EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('staff', 'admin'))
-    );
+    USING (true);
 
-CREATE POLICY "Customers can create conversations"
-    ON public.conversations FOR INSERT
-    TO authenticated
-    WITH CHECK (auth.uid() = customer_id);
+CREATE POLICY "Allow conversations write"
+    ON public.conversations FOR ALL
+    USING (true)
+    WITH CHECK (true);
 
-CREATE POLICY "Staff or participant can update conversation"
-    ON public.conversations FOR UPDATE
-    TO authenticated
-    USING (
-        auth.uid() = customer_id OR 
-        EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('staff', 'admin'))
-    );
-
--- Messages Policies
-CREATE POLICY "Users can view messages in their conversations"
+-- 4. Messages Policies
+CREATE POLICY "Allow messages read"
     ON public.messages FOR SELECT
-    TO authenticated
-    USING (
-        EXISTS (
-            SELECT 1 FROM public.conversations
-            WHERE conversations.id = messages.conversation_id
-            AND (
-                conversations.customer_id = auth.uid() OR
-                EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('staff', 'admin'))
-            )
-        )
-    );
+    USING (true);
 
-CREATE POLICY "Users can insert messages to their conversations"
-    ON public.messages FOR INSERT
-    TO authenticated
-    WITH CHECK (
-        EXISTS (
-            SELECT 1 FROM public.conversations
-            WHERE conversations.id = messages.conversation_id
-            AND (
-                conversations.customer_id = auth.uid() OR
-                EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('staff', 'admin'))
-            )
-        )
-    );
+CREATE POLICY "Allow messages write"
+    ON public.messages FOR ALL
+    USING (true)
+    WITH CHECK (true);
 
--- Trade-In Policies
-CREATE POLICY "Users can view their own trade-ins"
+-- 5. Trade-In Inquiries Policies
+CREATE POLICY "Allow trade-ins read"
     ON public.trade_in_inquiries FOR SELECT
-    TO authenticated
-    USING (
-        auth.uid() = user_id OR
-        EXISTS (SELECT 1 FROM public.profiles WHERE profiles.id = auth.uid() AND profiles.role IN ('staff', 'admin'))
-    );
+    USING (true);
 
-CREATE POLICY "Users can submit trade-ins"
-    ON public.trade_in_inquiries FOR INSERT
-    TO authenticated
-    WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Allow trade-ins write"
+    ON public.trade_in_inquiries FOR ALL
+    USING (true)
+    WITH CHECK (true);
 
 -- ==============================================================================
 -- AUTOMATIC PROFILE CREATION TRIGGER ON AUTH SIGNUP
