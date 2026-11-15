@@ -3,6 +3,7 @@
 -- ==============================================================================
 -- Copy and paste this script directly into your Supabase Dashboard:
 -- Supabase Dashboard -> SQL Editor -> New Query -> Run
+-- (This script is 100% IDEMPOTENT: you can re-run it anytime without errors!)
 -- ==============================================================================
 
 -- 1. Enable UUID Extension
@@ -22,17 +23,17 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 -- 3. Create iPhones Inventory Table
 CREATE TABLE IF NOT EXISTS public.iphones (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    model TEXT NOT NULL,                  -- e.g. "iPhone 15 Pro Max"
-    storage TEXT NOT NULL,                -- e.g. "256GB"
-    color TEXT NOT NULL,                  -- e.g. "Natural Titanium"
-    condition TEXT NOT NULL,              -- e.g. "Brand New", "Like New", "Good Condition"
-    battery_health INTEGER DEFAULT 100,  -- e.g. 98 (%)
-    price NUMERIC(10, 2) NOT NULL,        -- e.g. 899.00
-    original_price NUMERIC(10, 2),        -- e.g. 1199.00
+    model TEXT NOT NULL,                  -- e.g. "iPhone 18 Pro Max"
+    storage TEXT NOT NULL,                -- e.g. "512GB"
+    color TEXT NOT NULL,                  -- e.g. "Obsidian Titanium"
+    condition TEXT NOT NULL,              -- e.g. "Brand New (Sealed)", "Like New", "Good Condition"
+    battery_health INTEGER DEFAULT 100,  -- e.g. 100 (%)
+    price NUMERIC(10, 2) NOT NULL,        -- e.g. 92990.00
+    original_price NUMERIC(10, 2),        -- e.g. 99990.00
     status TEXT DEFAULT 'available' CHECK (status IN ('available', 'reserved', 'sold')),
     images TEXT[] DEFAULT ARRAY[]::TEXT[],
     description TEXT,
-    carrier_status TEXT DEFAULT 'Factory Unlocked',
+    carrier_status TEXT DEFAULT 'Factory Unlocked (Openline)',
     includes TEXT[] DEFAULT ARRAY['Original Box', 'USB-C Cable']::TEXT[],
     featured BOOLEAN DEFAULT false,
     created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -47,7 +48,8 @@ CREATE TABLE IF NOT EXISTS public.conversations (
     customer_avatar TEXT,
     customer_email TEXT,
     subject TEXT DEFAULT 'General Inquiry',
-    iphone_id UUID REFERENCES public.iphones(id) ON DELETE SET NULL, -- iPhone context if clicked "Inquire about this iPhone"
+    iphone_id UUID REFERENCES public.iphones(id) ON DELETE SET NULL,
+    iphone_preview JSONB,
     status TEXT DEFAULT 'open' CHECK (status IN ('open', 'resolved', 'closed')),
     last_message_text TEXT,
     last_message_at TIMESTAMPTZ DEFAULT NOW(),
@@ -105,51 +107,61 @@ GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
 
--- 1. iPhones Policies (Real-time public read and synchronized management)
+-- 1. iPhones Policies
+DROP POLICY IF EXISTS "Allow public read iphones" ON public.iphones;
 CREATE POLICY "Allow public read iphones"
     ON public.iphones FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Allow write iphones" ON public.iphones;
 CREATE POLICY "Allow write iphones"
     ON public.iphones FOR ALL
     USING (true)
     WITH CHECK (true);
 
 -- 2. Profiles Policies
+DROP POLICY IF EXISTS "Allow public profiles read" ON public.profiles;
 CREATE POLICY "Allow public profiles read"
     ON public.profiles FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Allow profiles manage" ON public.profiles;
 CREATE POLICY "Allow profiles manage"
     ON public.profiles FOR ALL
     USING (true)
     WITH CHECK (true);
 
 -- 3. Conversations Policies
+DROP POLICY IF EXISTS "Allow conversations read" ON public.conversations;
 CREATE POLICY "Allow conversations read"
     ON public.conversations FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Allow conversations write" ON public.conversations;
 CREATE POLICY "Allow conversations write"
     ON public.conversations FOR ALL
     USING (true)
     WITH CHECK (true);
 
 -- 4. Messages Policies
+DROP POLICY IF EXISTS "Allow messages read" ON public.messages;
 CREATE POLICY "Allow messages read"
     ON public.messages FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Allow messages write" ON public.messages;
 CREATE POLICY "Allow messages write"
     ON public.messages FOR ALL
     USING (true)
     WITH CHECK (true);
 
 -- 5. Trade-In Inquiries Policies
+DROP POLICY IF EXISTS "Allow trade-ins read" ON public.trade_in_inquiries;
 CREATE POLICY "Allow trade-ins read"
     ON public.trade_in_inquiries FOR SELECT
     USING (true);
 
+DROP POLICY IF EXISTS "Allow trade-ins write" ON public.trade_in_inquiries;
 CREATE POLICY "Allow trade-ins write"
     ON public.trade_in_inquiries FOR ALL
     USING (true)
@@ -185,15 +197,39 @@ CREATE TRIGGER on_auth_user_created
     FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
 -- ==============================================================================
--- ENABLE SUPABASE REALTIME FOR LIVE CHAT
+-- SAFE REALTIME REGISTRATION (NEVER THROWS ERROR 42710)
 -- ==============================================================================
-ALTER PUBLICATION supabase_realtime ADD TABLE public.messages;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.conversations;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.iphones;
+DO $$
+BEGIN
+    BEGIN
+        ALTER PUBLICATION supabase_realtime ADD TABLE public.messages;
+    EXCEPTION WHEN duplicate_object THEN
+        NULL;
+    END;
+    
+    BEGIN
+        ALTER PUBLICATION supabase_realtime ADD TABLE public.conversations;
+    EXCEPTION WHEN duplicate_object THEN
+        NULL;
+    END;
+    
+    BEGIN
+        ALTER PUBLICATION supabase_realtime ADD TABLE public.iphones;
+    EXCEPTION WHEN duplicate_object THEN
+        NULL;
+    END;
+END $$;
 
 -- ==============================================================================
 -- SAMPLE INITIAL INVENTORY (REALISTIC IPHONE STOCKS IN PHILIPPINE PESOS - PHP)
 -- ==============================================================================
+-- Clean up existing demo records so re-running never produces duplicates
+DELETE FROM public.iphones WHERE model IN (
+    'iPhone 18 Pro Max', 'iPhone 18 Pro', 'iPhone 17 Pro Max', 'iPhone 17 Air',
+    'iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 15 Pro Max', 'iPhone 15',
+    'iPhone 14 Pro', 'iPhone 13'
+);
+
 INSERT INTO public.iphones (model, storage, color, condition, battery_health, price, original_price, status, images, description, includes, featured)
 VALUES
 (
