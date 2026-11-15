@@ -84,7 +84,7 @@ export const TradeInCalculatorModal: React.FC<TradeInCalculatorModalProps> = ({
 • Screen: ${screenCondition}
 • Body: ${bodyCondition}
 • Issues: ${functionalIssues}
-• Estimated Quote: $${estimate.min} - $${estimate.max}
+• Estimated Quote: ₱${estimate.min.toLocaleString()} - ₱${estimate.max.toLocaleString()}
 ${notes ? `• Notes: ${notes}` : ''}`,
         is_staff: false,
       });
@@ -145,7 +145,7 @@ ${notes ? `• Notes: ${notes}` : ''}`,
               Estimated Instant Cash Value
             </span>
             <div className="text-3xl font-extrabold tracking-tight mt-0.5">
-              ${estimate.min} – ${estimate.max}
+              ₱{estimate.min.toLocaleString()} – ₱{estimate.max.toLocaleString()}
             </div>
             <span className="text-[11px] text-emerald-100">
               *Final amount confirmed after staff physical inspection or diagnostic.

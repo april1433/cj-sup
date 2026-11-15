@@ -117,18 +117,18 @@ export const IPhoneCard: React.FC<IPhoneCardProps> = ({
           <div className="flex items-baseline justify-between mb-3.5">
             <div>
               <span className="text-2xl font-black text-gray-900 tracking-tight">
-                ${phone.price.toLocaleString()}
+                ₱{phone.price.toLocaleString()}
               </span>
               {phone.original_price && phone.original_price > phone.price && (
                 <span className="ml-2 text-xs text-gray-400 line-through">
-                  ${phone.original_price.toLocaleString()}
+                  ₱{phone.original_price.toLocaleString()}
                 </span>
               )}
             </div>
 
             {phone.original_price && phone.original_price > phone.price && (
               <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                Save ${(phone.original_price - phone.price).toLocaleString()}
+                Save ₱{(phone.original_price - phone.price).toLocaleString()}
               </span>
             )}
           </div>

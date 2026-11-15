@@ -114,7 +114,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 {phoneContext.model} ({phoneContext.storage})
               </span>
               <span className="text-blue-700 font-semibold block">
-                ${phoneContext.price.toLocaleString()} • {phoneContext.condition}
+                ₱{phoneContext.price.toLocaleString()} • {phoneContext.condition}
               </span>
               <span className="text-[10px] text-gray-500">
                 Staff will see this phone attached in your chat

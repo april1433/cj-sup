@@ -96,16 +96,16 @@ export const IPhoneDetailsModal: React.FC<IPhoneDetailsModalProps> = ({
                 <div>
                   <span className="text-xs text-gray-500 block">Verified Store Price</span>
                   <span className="text-3xl font-extrabold text-gray-900 tracking-tight">
-                    ${phone.price.toLocaleString()}
+                    ₱{phone.price.toLocaleString()}
                   </span>
                 </div>
                 {phone.original_price && (
                   <div className="text-right">
                     <span className="text-xs text-gray-400 line-through block">
-                      ${phone.original_price.toLocaleString()}
+                      ₱{phone.original_price.toLocaleString()}
                     </span>
                     <span className="text-xs font-bold text-emerald-600">
-                      Save ${(phone.original_price - phone.price).toLocaleString()}
+                      Save ₱{(phone.original_price - phone.price).toLocaleString()}
                     </span>
                   </div>
                 )}

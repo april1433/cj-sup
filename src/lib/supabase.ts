@@ -289,7 +289,7 @@ export async function getOrCreateConversation(
       sender_name: user.full_name,
       sender_avatar: user.avatar_url,
       message_text: iphone 
-        ? `Hello! I'm interested in purchasing the ${iphone.model} - ${iphone.storage} (${iphone.color}) listed for $${iphone.price}. Is this currently available?` 
+        ? `Hello! I'm interested in purchasing the ${iphone.model} - ${iphone.storage} (${iphone.color}) listed for ₱${iphone.price.toLocaleString()}. Is this currently available?` 
         : `Hello! I would like to inquire about buying/selling an iPhone.`,
       is_staff: false,
     });
@@ -334,7 +334,7 @@ export async function getOrCreateConversation(
     sender_name: user.full_name,
     sender_avatar: user.avatar_url,
     message_text: iphone 
-      ? `Hello! I'm interested in purchasing the ${iphone.model} - ${iphone.storage} (${iphone.color}) listed for $${iphone.price}. Is this currently available?` 
+      ? `Hello! I'm interested in purchasing the ${iphone.model} - ${iphone.storage} (${iphone.color}) listed for ₱${iphone.price.toLocaleString()}. Is this currently available?` 
       : `Hello! I would like to inquire about buying or selling an iPhone.`,
     is_staff: false,
   });

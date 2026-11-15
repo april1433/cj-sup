@@ -8,16 +8,16 @@ export const INITIAL_IPHONES: IPhone[] = [
     color: 'Obsidian Titanium',
     condition: 'Brand New (Sealed)',
     battery_health: 100,
-    price: 1399,
-    original_price: 1499,
+    price: 92990,
+    original_price: 99990,
     status: 'available',
     images: [
       'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80',
       'https://images.unsplash.com/photo-1695048065057-de65796a56e0?auto=format&fit=crop&w=1000&q=80'
     ],
     description: 'Next-gen flagship with A20 Pro silicon, integrated under-display Face ID and variable aperture camera system. Factory sealed.',
-    carrier_status: 'Factory Unlocked (All SIMs & Global eSIM)',
-    includes: ['Sealed Box', 'Braided High-Speed USB-C Cable', '1-Year Apple Care Eligibility'],
+    carrier_status: 'Factory Unlocked (All Philippine SIMs & eSIM)',
+    includes: ['Sealed Box', 'Braided High-Speed USB-C Cable', '1-Year Official Apple Warranty'],
     featured: true,
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
   },
@@ -28,15 +28,15 @@ export const INITIAL_IPHONES: IPhone[] = [
     color: 'Silver Titanium',
     condition: 'Brand New (Sealed)',
     battery_health: 100,
-    price: 1149,
-    original_price: 1249,
+    price: 79990,
+    original_price: 85990,
     status: 'available',
     images: [
       'https://images.unsplash.com/photo-1695048065057-de65796a56e0?auto=format&fit=crop&w=1000&q=80',
       'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80'
     ],
     description: 'Brand new sealed unit. Compact pro powerhouse, ultra-bright 3000-nit ProMotion display.',
-    carrier_status: 'Factory Unlocked',
+    carrier_status: 'Factory Unlocked (Smart/Globe/DITO)',
     includes: ['Original Factory Box', 'Braided Cable', 'Full Warranty'],
     featured: true,
     created_at: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
@@ -48,8 +48,8 @@ export const INITIAL_IPHONES: IPhone[] = [
     color: 'Cosmic Blue',
     condition: 'Like New',
     battery_health: 100,
-    price: 1049,
-    original_price: 1199,
+    price: 71990,
+    original_price: 81990,
     status: 'available',
     images: [
       'https://images.unsplash.com/photo-1695048132960-47b1c3e3e0ff?auto=format&fit=crop&w=1000&q=80',
@@ -68,8 +68,8 @@ export const INITIAL_IPHONES: IPhone[] = [
     color: 'Titanium Frost',
     condition: 'Like New',
     battery_health: 99,
-    price: 899,
-    original_price: 999,
+    price: 56990,
+    original_price: 64990,
     status: 'available',
     images: [
       'https://images.unsplash.com/photo-1591337676887-a217a6970a8a?auto=format&fit=crop&w=1000&q=80'
@@ -87,16 +87,16 @@ export const INITIAL_IPHONES: IPhone[] = [
     color: 'Desert Titanium',
     condition: 'Brand New (Sealed)',
     battery_health: 100,
-    price: 899,
-    original_price: 1199,
+    price: 54990,
+    original_price: 84990,
     status: 'available',
     images: [
       'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80',
       'https://images.unsplash.com/photo-1695048065057-de65796a56e0?auto=format&fit=crop&w=1000&q=80'
     ],
-    description: 'Factory sealed in original retail box. Includes full 1-year Apple limited warranty.',
-    carrier_status: 'Factory Unlocked (All SIMs)',
-    includes: ['Original Factory Box', 'Braided USB-C Cable', 'Warranty Documentation'],
+    description: 'Factory sealed in original retail box. NTC approved, full 1-year Apple limited warranty.',
+    carrier_status: 'Factory Unlocked (Openline)',
+    includes: ['Original Factory Box', 'Braided USB-C Cable', '1-Year Apple Warranty'],
     featured: false,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
   },
@@ -107,14 +107,14 @@ export const INITIAL_IPHONES: IPhone[] = [
     color: 'Natural Titanium',
     condition: 'Like New',
     battery_health: 98,
-    price: 749,
-    original_price: 999,
+    price: 46990,
+    original_price: 69990,
     status: 'available',
     images: [
       'https://images.unsplash.com/photo-1695048065057-de65796a56e0?auto=format&fit=crop&w=1000&q=80'
     ],
     description: 'Zero micro-scratches on display or chassis. 98% battery capacity with 28 charge cycles.',
-    carrier_status: 'Factory Unlocked',
+    carrier_status: 'Factory Unlocked (Openline)',
     includes: ['Original Box', 'Original Cable', 'Tempered Glass Installed'],
     featured: false,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
@@ -126,14 +126,14 @@ export const INITIAL_IPHONES: IPhone[] = [
     color: 'Blue Titanium',
     condition: 'Like New',
     battery_health: 95,
-    price: 699,
-    original_price: 999,
+    price: 42990,
+    original_price: 64990,
     status: 'available',
     images: [
       'https://images.unsplash.com/photo-1695048132960-47b1c3e3e0ff?auto=format&fit=crop&w=1000&q=80'
     ],
     description: 'Massive 512GB storage capacity. Titanium band in pristine shape. 95% battery health.',
-    carrier_status: 'Factory Unlocked (Dual eSIM)',
+    carrier_status: 'Factory Unlocked (Openline)',
     includes: ['Original Box', 'Fast 20W Charger', 'MagSafe Case'],
     featured: false,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
@@ -145,14 +145,14 @@ export const INITIAL_IPHONES: IPhone[] = [
     color: 'Deep Purple',
     condition: 'Good Condition',
     battery_health: 91,
-    price: 499,
-    original_price: 899,
+    price: 31990,
+    original_price: 58990,
     status: 'available',
     images: [
       'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1000&q=80'
     ],
     description: 'Iconic Deep Purple color. Minor superficial marks on rim, screen is 100% scratch-free.',
-    carrier_status: 'Factory Unlocked',
+    carrier_status: 'Factory Unlocked (Openline)',
     includes: ['Charging Cable', 'Clear Protective Case'],
     featured: false,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 36).toISOString(),
@@ -189,41 +189,41 @@ export const IPHONE_MODELS = [
 
 export const STORAGE_OPTIONS = ['128GB', '256GB', '512GB', '1TB', '2TB'];
 
-// Base valuation algorithm for trade-in estimations
+// Base valuation algorithm for trade-in estimations in Philippine Pesos (PHP / ₱)
 export function calculateTradeInEstimate(
   model: string,
   storage: string,
   batteryHealth: number,
   condition: string
 ): { min: number; max: number } {
-  let basePrice = 300;
+  let basePrice = 18000;
   
-  if (model.includes('18 Pro Max')) basePrice = 1050;
-  else if (model.includes('18 Pro')) basePrice = 920;
-  else if (model.includes('18')) basePrice = 750;
-  else if (model.includes('17 Pro Max')) basePrice = 850;
-  else if (model.includes('17 Pro')) basePrice = 750;
-  else if (model.includes('17 Air')) basePrice = 680;
-  else if (model.includes('17')) basePrice = 600;
-  else if (model.includes('16 Pro Max')) basePrice = 620;
-  else if (model.includes('16 Pro')) basePrice = 540;
-  else if (model.includes('16')) basePrice = 450;
-  else if (model.includes('15 Pro Max')) basePrice = 480;
-  else if (model.includes('15 Pro')) basePrice = 420;
-  else if (model.includes('15')) basePrice = 350;
-  else if (model.includes('14 Pro Max')) basePrice = 380;
-  else if (model.includes('14 Pro')) basePrice = 330;
-  else if (model.includes('14')) basePrice = 270;
-  else if (model.includes('13 Pro')) basePrice = 250;
-  else if (model.includes('13')) basePrice = 200;
-  else if (model.includes('12')) basePrice = 150;
-  else if (model.includes('11')) basePrice = 110;
+  if (model.includes('18 Pro Max')) basePrice = 65000;
+  else if (model.includes('18 Pro')) basePrice = 58000;
+  else if (model.includes('18')) basePrice = 46000;
+  else if (model.includes('17 Pro Max')) basePrice = 54000;
+  else if (model.includes('17 Pro')) basePrice = 48000;
+  else if (model.includes('17 Air')) basePrice = 42000;
+  else if (model.includes('17')) basePrice = 38000;
+  else if (model.includes('16 Pro Max')) basePrice = 40000;
+  else if (model.includes('16 Pro')) basePrice = 34000;
+  else if (model.includes('16')) basePrice = 28000;
+  else if (model.includes('15 Pro Max')) basePrice = 30000;
+  else if (model.includes('15 Pro')) basePrice = 26000;
+  else if (model.includes('15')) basePrice = 22000;
+  else if (model.includes('14 Pro Max')) basePrice = 24000;
+  else if (model.includes('14 Pro')) basePrice = 20000;
+  else if (model.includes('14')) basePrice = 17000;
+  else if (model.includes('13 Pro')) basePrice = 15500;
+  else if (model.includes('13')) basePrice = 13000;
+  else if (model.includes('12')) basePrice = 9500;
+  else if (model.includes('11')) basePrice = 7000;
 
   // Storage multiplier
-  if (storage === '256GB') basePrice += 40;
-  else if (storage === '512GB') basePrice += 90;
-  else if (storage === '1TB') basePrice += 150;
-  else if (storage === '2TB') basePrice += 220;
+  if (storage === '256GB') basePrice += 2500;
+  else if (storage === '512GB') basePrice += 5500;
+  else if (storage === '1TB') basePrice += 9500;
+  else if (storage === '2TB') basePrice += 14000;
 
   // Battery multiplier
   let batteryFactor = 1.0;
@@ -237,9 +237,9 @@ export function calculateTradeInEstimate(
   else if (condition.includes('Good') || condition.includes('Minor')) conditionFactor = 0.92;
   else if (condition.includes('Cracked') || condition.includes('Damaged')) conditionFactor = 0.65;
 
-  const finalEst = Math.round(basePrice * batteryFactor * conditionFactor);
+  const finalEst = Math.round((basePrice * batteryFactor * conditionFactor) / 100) * 100;
   return {
-    min: Math.max(50, finalEst - 40),
-    max: finalEst + 40,
+    min: Math.max(3000, finalEst - 1500),
+    max: finalEst + 1500,
   };
 }

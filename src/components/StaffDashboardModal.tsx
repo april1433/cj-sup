@@ -291,7 +291,7 @@ export const StaffDashboardModal: React.FC<StaffDashboardModalProps> = ({
                     </div>
 
                     <div>
-                      <label className="font-semibold text-gray-700 block mb-1">Price ($)</label>
+                      <label className="font-semibold text-gray-700 block mb-1">Price (₱)</label>
                       <input
                         type="number"
                         value={price}
@@ -301,7 +301,7 @@ export const StaffDashboardModal: React.FC<StaffDashboardModalProps> = ({
                     </div>
 
                     <div>
-                      <label className="font-semibold text-gray-700 block mb-1">Original Price ($)</label>
+                      <label className="font-semibold text-gray-700 block mb-1">Original Price (₱)</label>
                       <input
                         type="number"
                         value={originalPrice}
@@ -370,7 +370,7 @@ export const StaffDashboardModal: React.FC<StaffDashboardModalProps> = ({
 
                     <div className="text-right shrink-0">
                       <div className="font-black text-gray-900 text-sm">
-                        ${phone.price}
+                        ₱{phone.price.toLocaleString()}
                       </div>
                       {/* Status toggle selector */}
                       <select
@@ -474,7 +474,7 @@ export const StaffDashboardModal: React.FC<StaffDashboardModalProps> = ({
                         {t.model} ({t.storage})
                       </span>
                       <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold">
-                        Quote: ${t.estimated_offer_min} - ${t.estimated_offer_max}
+                        Quote: ₱{t.estimated_offer_min.toLocaleString()} - ₱{t.estimated_offer_max.toLocaleString()}
                       </span>
                     </div>
 

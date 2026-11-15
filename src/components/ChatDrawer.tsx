@@ -165,7 +165,7 @@ export const ChatDrawer: React.FC<ChatDrawerProps> = ({
               {activeConversation.iphone_preview.model} ({activeConversation.iphone_preview.storage})
             </span>
             <span className="text-gray-500 text-[11px]">
-              {activeConversation.iphone_preview.color} • <strong className="text-blue-600">${activeConversation.iphone_preview.price}</strong>
+              {activeConversation.iphone_preview.color} • <strong className="text-blue-600">₱{activeConversation.iphone_preview.price.toLocaleString()}</strong>
             </span>
           </div>
           <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
